@@ -1,0 +1,7 @@
+{
+  "name": "navs",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
