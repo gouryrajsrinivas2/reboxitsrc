@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform,MenuController,Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 
 import { HomePage } from '../pages/home/home';
@@ -23,6 +24,7 @@ import { AggrePage } from '../pages/aggre/aggre';
 import { HistPage } from '../pages/hist/hist';
 import { DsheetsPage } from '../pages/dsheets/dsheets';
 import { CatePage } from '../pages/cate/cate';
+import { AngularFireAuth } from '@angular/fire/auth';
 @Component({
   templateUrl: 'app.html'
 })
@@ -32,6 +34,7 @@ export class MyApp {
   rootPage: any = LoginPage;
   ass:boolean=false;
   admin:boolean=false;
+  us;
   
   //pages: Array<{icon: string,title: string, component: any}>;
     pages: any;
@@ -41,7 +44,18 @@ export class MyApp {
   // Selected Side Menu
   selectedMenu: any;
 
-  constructor(public events: Events,public g:GlobalProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public menuCtrl: MenuController) {
+  constructor(private fire:AngularFireAuth,private nativeStorage: NativeStorage,public events: Events,public g:GlobalProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public menuCtrl: MenuController) {
+    /*this.nativeStorage.getItem('myitem')
+  .then(
+    //data => console.log(data),
+    //error => console.error(error)
+    this.rootPage(HomePage)
+  );*/
+    this.us=this.fire.auth.currentUser;
+    if(this.us){
+      this.rootPage=HomePage;
+    }
+    
     this.initializeApp();
     //this.user=this.g.type;
     //console.log("type is", this.g.type)

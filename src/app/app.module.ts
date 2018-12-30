@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { NativeStorage } from '@ionic-native/native-storage'
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -95,7 +96,8 @@ import { CartProvider } from '../providers/cart/cart';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GlobalProvider,
-    CartProvider
+    CartProvider,
+    NativeStorage
     //MenuProvider
   ]
 })

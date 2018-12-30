@@ -20,16 +20,21 @@ export class ListPage {
 
   }
    book() {
-
+     if(this.data.location==""||this.data.add1==""||this.data.add2==""||this.data.city==""||this.data.pincode==""||this.data.slots==""){
+       this.alert("fields cannot be empty");
+     }
+     else{
        this.t=this.g.type;
        this.obj=this.g.object;
 
        let db=firebase.firestore();
-       db.collection(this.t).doc(this.obj.username).update({
+       db.collection(this.t).doc(this.obj.email).update({
          address:{
         location:this.data.location,add1:this.data.add1,add2:this.data.add2,city:this.data.city,pincode:this.data.pincode,slots:this.data.slots
          }
        });
+       this.navCtrl.push(CategoryPage);
+      }
        //console.log(this.data.name);
        /*const ref1 = firebase.database().ref(`/tuser/${this.t}/${this.obj.key}/address`);
         ref1.push({
@@ -38,7 +43,7 @@ export class ListPage {
     });*/
       
        // this.alert('You are Sucessfully booked up');
-       this.navCtrl.push(CategoryPage);
+       
      
   }
   alert(message:string) {

@@ -58,8 +58,8 @@ export class LoginPage {
        //console.log(this.all.value);
       console.log("hai");
       let db=firebase.firestore();
-      this.ex=db.collection(this.all.value).doc(this.password.value);
-      console.log(this.email.value),
+      this.ex=db.collection(this.all.value).doc(this.email.value);
+      console.log("fuck" ,this.email.value),
       //this.a=this.email.value;
       this.ex.get().then((doc)=> {
         if (doc.exists) {
@@ -74,20 +74,29 @@ export class LoginPage {
                 this.g.type=this.all.value;
                 console.log("typezzzz",this.g.type)
                 if(this.all.value=="user"){
-                this.navCtrl.setRoot(HomePage);
-                this.events.publish('created', this.all.value);
+                this.fire.auth.signInWithEmailAndPassword(this.email.value,this.password.value).then(data=>{
+                  this.events.publish('created', this.all.value);
+                  this.navCtrl.setRoot(HomePage);
+                });
+           
+               
                 //  console.log("rammm");
                   
             
               }
                 else if(this.all.value=="scrap-dealer"||this.all.value=="recycler"||this.all.value=="aggregator"){
+                  this.fire.auth.signInWithEmailAndPassword(this.email.value,this.password.value).then(data=>{
                   this.events.publish('created', "associates");
                   this.navCtrl.setRoot(CartzPage);
+                });
                 }
                 else{
+                  this.fire.auth.signInWithEmailAndPassword(this.email.value,this.password.value).then(data=>{
                   this.navCtrl.setRoot(NotiPage);
                   this.events.publish('created', this.all.value);
+                });
                 }
+            
                 
               }
               else{

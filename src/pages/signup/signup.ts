@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import firebase from 'firebase';
 import 'firebase/firestore';
+import { NativeStorage } from '@ionic-native/native-storage';
 //import { AngularFirestore } from '@angular/fire/firestore';
 /**
  * Generated class for the SignupPage page.
@@ -21,12 +22,13 @@ import 'firebase/firestore';
 export class SignupPage {
   pet;
   userDoc;
-	data={cat:'',email:'',username:'',password:'',cpassword:''};
+  data={cat:'',email:'',username:'',password:'',cpassword:'',uid:''};
+  zz;
 	//ref = firebase.database().ref('/users/');
 
 	//users
 
-  constructor(private fire:AngularFireAuth, public alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private nativeStorage: NativeStorage,private fire:AngularFireAuth, public alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -41,16 +43,51 @@ export class SignupPage {
       //name:this.data.name
     });*/
     if(this.pet=="user"){
-    let db=firebase.firestore();
-    db.collection(this.pet).doc(this.data.username).set({
-      email:this.data.email,username:this.data.username,password:this.data.password,cpassword:this.data.cpassword
+    this.fire.auth.createUserWithEmailAndPassword(this.data.email,this.data.password).then(dat=>{
+      //this.zz=this.fire.auth.currentUser;
+      console.log("oww",dat)
+            let db=firebase.firestore();
+      db.collection(this.pet).doc(this.data.email).set({
+        
+        email:this.data.email,username:this.data.username,password:this.data.password,cpassword:this.data.cpassword,uid:dat.user.uid
+    
+        
+      })
+      console.log("uid is ",dat.additionalUserInfo.providerId);
+    })
+     /* this.nativeStorage.setItem('myitem', {property: 'value'}).then((data)=>{
+        console.log('Stored item!'),
+        this.alert('You are Sucessfully signed up');
+      })
+      .catch((error)=>{
+        
+      
+
+   // })*/
+    .catch(error=>{
+      this.alert(error.message);
     });
+   
   }else{
+    this.fire.auth.createUserWithEmailAndPassword(this.data.email,this.data.password).then(data=>{
     let db=firebase.firestore();
-    db.collection(this.data.cat).doc(this.data.username).set({
+    db.collection(this.data.cat).doc(this.data.email).set({
       email:this.data.email,username:this.data.username,password:this.data.password,cpassword:this.data.cpassword
-    });
+    })
+   /* this.nativeStorage.setItem('myitem', {property: 'value'}).then(data=>{
+      console.log('Stored item!'),
+      this.alert('You are Sucessfully signed up');
+    })
+    .catch(error=>{
+      console.log(error.data);
+    })*/
+    //this.alert('You are Sucessfully signed up');
+  })
+ .catch(error=>{
+    this.alert(error.message);
+  });
   }
+  this.navCtrl.setRoot(LoginPage);
     /*this.userDoc = this.fireStore.doc<any>('userProfile/we45tfgy8ij');
     this.userDoc.set({
       name: 'Jorge Vergara',
@@ -58,7 +95,7 @@ export class SignupPage {
       // Other info you want to add here
     })*/
        // this.fire.auth.createUserWithEmailAndPassword(this.data.email,this.data.password);
-        this.alert('You are Sucessfully signed up');
+      
     	
 
     /*const alert = this.alertCtrl.create({
