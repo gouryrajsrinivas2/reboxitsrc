@@ -22,5 +22,9 @@
 
 
 <ion-content padding>
-
+<p> The List of {{s}} are </p>
+<p> Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email-id</p>
+<div *ngFor=" let item of ex">
+<p>{{item.data.username}} -------------------> {{item.data.email}}</p>
+</div>
 </ion-content>

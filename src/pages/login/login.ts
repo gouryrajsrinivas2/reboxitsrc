@@ -49,6 +49,7 @@ export class LoginPage {
         this.spinit=true;
       })
       console.log(this.arrDatas);*/
+      
   }
 
   ionViewDidLoad() {
@@ -59,6 +60,7 @@ export class LoginPage {
       console.log("hai");
       let db=firebase.firestore();
       this.ex=db.collection(this.all.value).doc(this.email.value);
+      console.log(this.all.value)
       console.log("fuck" ,this.email.value),
       //this.a=this.email.value;
       this.ex.get().then((doc)=> {
@@ -84,7 +86,7 @@ export class LoginPage {
                   
             
               }
-                else if(this.all.value=="scrap-dealer"||this.all.value=="recycler"||this.all.value=="aggregator"){
+                else if(this.all.value=="scrapdealer"||this.all.value=="recycler"||this.all.value=="aggregator"){
                   this.fire.auth.signInWithEmailAndPassword(this.email.value,this.password.value).then(data=>{
                   this.events.publish('created', "associates");
                   this.navCtrl.setRoot(CartzPage);
